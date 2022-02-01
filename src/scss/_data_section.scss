@@ -1,14 +1,20 @@
 .data {
   &__content {
     display: flex;
-    min-height: 300px;
-    position: relative;
-    color:rgb(78, 144, 199);
+    min-height: 400px;
     justify-content: center;
+    position: relative;
     align-items: center;
+    flex-direction: column;
   }
-  &__info--hidden{
-    display: none;
+  &__info {
+    color: rgb(78, 144, 199);
+    &--hidden {
+      display: none;
+    }
+    &--error {
+      color: red;
+    }
   }
   &__spinner {
     position: absolute;
@@ -19,6 +25,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    background: #fff;
     &::after {
       content: "";
       width: 50px;
