@@ -3,28 +3,31 @@ import Chart from "chart.js/auto";
 
 window.addEventListener("DOMContentLoaded", (e) => {
 
-  // Fetching data
+  // fetch data
   const button = document.querySelector(".data__button");
   button.addEventListener("click", (e) => {
-    
-    const info = document.querySelector(".data__info")
+    const info = document.querySelector(".data__info");
+
     info.classList.add("data__info--hidden");
     createSpinner();
     const url = "https://randomuser.me/api/";
 
     async function fetchData() {
-        try {
-            await createChart(url);
-            await createTable(url);
-            document.querySelector(".data__spinner").remove();
+      try {
+        await createChart(url);
+        await createTable(url);
+        document.querySelector(".data__spinner").remove();
 
-        } catch(error) {
-            document.querySelector(".data__spinner").remove();
-            info.innerText = 'something went wrong, try again later';
-            info.classList.remove('data__info--hidden')
-            info.classList.add('data__info--error')
-            console.log(error);
-        }
+      } catch (error) {
+        document.querySelector(".data__spinner").remove();
+        info.innerText = "something went wrong, try again later";
+        info.classList.remove("data__info--hidden");
+        info.classList.add("data__info--error");
+        document.querySelector(".data__table").innerHTML = "";
+        document.querySelector(".data__chart").innerHTML = "";
+
+        console.log(error);
+      }
     }
     fetchData();
   });
@@ -115,9 +118,12 @@ window.addEventListener("DOMContentLoaded", (e) => {
     const data = await response.json();
     const arrayOfData = [...data.results];
     const specificData = arrayOfData.sort(compare);
+
     const oldestMenData = specificData.slice(0, 10);
+
     tableContainer.innerHTML =
       "<tr><th>Index</th><th>Age</th><th>Date od birth</th><th>Name</th><th>Nationality</th></tr>";
+
     oldestMenData.map((el, index) => {
       const tr = document.createElement("tr");
       tableContainer.append(tr);
@@ -136,24 +142,13 @@ window.addEventListener("DOMContentLoaded", (e) => {
   };
 
   const compare = (a, b) => {
-    if (a.dob.age > b.dob.age) {
-      return -1;
-    }
-    if (a.dob.age < b.dob.age) {
-      return 1;
-    }
-    if (Number(a.dob.date.slice(5, 7)) < Number(b.dob.date.slice(5, 7))) {
-      return -1;
-    }
-    if (Number(a.dob.date.slice(5, 7)) > Number(b.dob.date.slice(5, 7))) {
-      return 1;
-    }
-    if (Number(a.dob.date.slice(8, 10)) < Number(b.dob.date.slice(8, 10))) {
-      return -1;
-    }
-    if (Number(a.dob.date.slice(8, 10)) > Number(b.dob.date.slice(8, 10))) {
-      return 1;
-    }
+    if (a.dob.age > b.dob.age) return -1;
+    if (a.dob.age < b.dob.age) return 1;
+    if (Number(a.dob.date.slice(5, 7)) < Number(b.dob.date.slice(5, 7))) return -1;
+    if (Number(a.dob.date.slice(5, 7)) > Number(b.dob.date.slice(5, 7))) return 1;
+    if (Number(a.dob.date.slice(8, 10)) < Number(b.dob.date.slice(8, 10))) return -1;
+    if (Number(a.dob.date.slice(8, 10)) > Number(b.dob.date.slice(8, 10))) return 1;
+
     return 0;
   };
 
@@ -164,14 +159,19 @@ window.addEventListener("DOMContentLoaded", (e) => {
     dataContainer.appendChild(spinner);
   };
 
-  window.addEventListener("unload", function(){
-    let count = parseInt(localStorage.getItem('counter') || 0);
-    localStorage.setItem('counter', ++count)
-  }, false);
-  
-  if (localStorage.getItem('counter') == 5) {
-   const articles = document.querySelectorAll('.article');
-   [...articles].map(el => el.style.background = "red")
-   localStorage.setItem('counter', 0)
+  // change background after fifth refresh page
+  window.addEventListener(
+    "unload",
+    function () {
+      let count = parseInt(localStorage.getItem("counter") || 0);
+      localStorage.setItem("counter", ++count);
+    },
+    false
+  );
+
+  if (localStorage.getItem("counter") == 5) {
+    const articles = document.querySelectorAll(".article");
+    [...articles].map(el => el.style.background = "#489fe6");
+    localStorage.setItem("counter", 0);
   }
 });

@@ -5,9 +5,9 @@
   font-size: 1rem;
   &__part {
     padding: 0.5rem 0;
-  }
-  @media (min-width: $desktop-width) {
-    max-width: 50rem;
-    margin: 0 auto;
+    @media (min-width: $desktop-width) {
+      max-width: 50rem;
+      margin: 0 auto;
+    }
   }
 }
