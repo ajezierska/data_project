@@ -163,4 +163,15 @@ window.addEventListener("DOMContentLoaded", (e) => {
     spinner.classList.add("data__spinner");
     dataContainer.appendChild(spinner);
   };
+
+  window.addEventListener("unload", function(){
+    let count = parseInt(localStorage.getItem('counter') || 0);
+    localStorage.setItem('counter', ++count)
+  }, false);
+  
+  if (localStorage.getItem('counter') == 5) {
+   const articles = document.querySelectorAll('.article');
+   [...articles].map(el => el.style.background = "red")
+   localStorage.setItem('counter', 0)
+  }
 });
